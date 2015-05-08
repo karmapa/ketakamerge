@@ -12,8 +12,15 @@ var res=xml4kdb.parseXML(lj0302_001,{segsep:"pb.id"});
 
 //tag [realpos, tagname, attribute, vpos==0 ]
 
-var injectKetaka=function(start,end,text) {
+var injectKetaka=function(start,end,text,ketakajson) {
   var out="";
+  //100      110     start and end
+  //abcdefghijklmn   <-- text in XML
+
+  // sort by s
+  //s:105, l: 2, t="xyz"   //ketaka revision record
+  //abcdexyzhi       <---output
+
 	return out;
 }
 
