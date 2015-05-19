@@ -1,0 +1,11 @@
+1. 在getallmrkp內修改CHIEF，改為要處理bampo的CHIEF(第6行)
+   修改檔案路徑，至database(第36行)
+2. 執行 node getallmrkp --> 得到d開頭的json檔
+
+
+
+
+getallmrkp.js      -->  將markup從database抽出來
+sortstartbypage.js -->  將getallmrkp.js 產生的array依據頁碼和start大小整理
+main.js    		   -->  產生merge markup後新的xml檔
+
