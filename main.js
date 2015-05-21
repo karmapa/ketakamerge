@@ -3,7 +3,7 @@ var xml4kdb=require("ksana-indexer").xml4kdb;
 var tokenize=require("ksana-analyzer").getAPI("simple1").tokenize;
 var mkdirp=require("./mkdirp.js");
 var filelist = fs.readFileSync("./jiangkangyur.lst","utf8").split(/\r?\n/);
-
+var getMrkp = require("./getallmrkp.js");
 //res.tags=[ [tags of seg 0 ], [tags of seg 1] ... ]
 //res.texts [ {n:segid, t:"text"} , {n:segid, t:"text}, ]
 //inject tags back to text
@@ -64,17 +64,18 @@ var processFile = function(res,mrkps,vol,bampo) {
 		out.push(r);
 	}
 	var d = new Date();
-	var date = d.toString().substr(4,11).replace(/ /g,"");
+	var date = d.toString().substr(4,11).replace(/ /g,"").toLowerCase();
 	mkdirp.sync("../jiangkangyur_"+date+"/"+vol);
 
 	fs.writeFileSync("../jiangkangyur_"+date+"/"+vol+"/"+bampo+".xml",out.join(""),"utf8");
 	//console.log("All files have been converted to xml, please see ../jiangkangyur_"+date+"/"+vol);
 }
 
-filelist.map(function(file){
+filelist.map(function(file){//file:../jiangkangyur/078/lj0302_001.xml
 	var vol = file.match(/\/(\d+)\//)[1];
 	var bampo = file.match(/lj\d+_\d+/)[0];
-	var mrkps=JSON.parse(fs.readFileSync("./"+vol+"/"+bampo.replace("lj","d")+".json","utf8"));
+	var m=JSON.parse(fs.readFileSync("./"+vol+"/"+bampo.replace("lj","").replace("_","-")+".json","utf8"));
+	var mrkps=getMrkp(m);
 	var bampoText=fs.readFileSync(file,"utf8");//./lj0302_001.xml
 	var res=xml4kdb.parseXML(bampoText,{segsep:"pb.id"});
 	processFile(res,mrkps,vol,bampo);

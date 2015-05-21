@@ -13,7 +13,7 @@ var accumulateCounter = function(arr,matchItem){
 
 var sortStartByPage = function(arr, filename){
 	var out=[];
-	var bampo=filename.match(/\d+_\d+/)[0];
+	//var bampo=filename.match(/\d+_\d+/)[0];
 	for(var i=0; i<arr.length; i++){
 		//arr[3] is page
 		var index = accumulateCounter(out, arr[i][3]);
@@ -26,8 +26,8 @@ var sortStartByPage = function(arr, filename){
 	for(var j=0; j<out.length; j++){
 		out[j].sort(function(a,b) {return b[1]-a[1]} );
 	}
-	//console.log(out);
-	fs.writeFileSync("d"+bampo+".json",JSON.stringify(out,""," "),"utf8");
+	//fs.writeFileSync("d"+bampo+".json",JSON.stringify(out,""," "),"utf8");
+	return out;
 }
 
 module.exports = sortStartByPage;

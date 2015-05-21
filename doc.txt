@@ -1,6 +1,11 @@
-1. 在getallmrkp內修改CHIEF，改為要處理bampo的CHIEF(第6行)
-   修改檔案路徑，至database(第36行)
-2. 執行 node getallmrkp --> 得到d開頭的json檔
+1. 將ketakamerge clone在與jiangkangyur資料夾平行的目錄下
+2. 將database放入ketakamerge資料夾內，依函分資料夾放，
+   資料夾命名參考jiangkangyur，第一函為001、第十函為010⋯⋯。
+3. 在jiangkangyur.lst內修改，
+   保留前方的../jiangkangyur/ 修改函與bampo
+4. 在getallmrkp內修改CHIEF，改為要處理bampo的CHIEF名稱(第6行)
+5. 執行node main
+   
 
 
 
