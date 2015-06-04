@@ -18,7 +18,7 @@ var injectKetaka=function(start,end,text,mrkps) {
   	var mrkpStart = mrkps[i][1], mrkpLen = mrkps[i][2], mrkpText = mrkps[i][4];
   	//out = out.substr(0,mrkpStart-start)+"XXX"+mrkpText+'XXX'+out.substr(mrkpStart-start+mrkpLen);
     //if(mrkpText == " །") console.log(mrkpStart-start+2,mrkpStart-start+mrkpLen+2);
-  	out = out.substr(0,mrkpStart-start)+mrkpText+out.substr(mrkpStart-start+mrkpLen+1);
+  	out = out.substr(0,mrkpStart-start+1)+mrkpText+out.substr(mrkpStart-start+mrkpLen+1);
   }
   //100      110     start and end
   //abcdefghijklmn   <-- text in XML
@@ -36,6 +36,7 @@ var injectTag=function(seg,tags,pageid,mrkps) {
 	var out="", last=0,i=0, j=0;
 	//tagoffset = tags[i][0]
 	var mrkp = mrkps.filter(function(item){return item[0][3]===pageid})[0] ||[];
+	//console.log(mrkp);
 	while (i<tags.length && tags[i][0]>=last) {
 		
 		var m = mrkp.filter(function(item){ return (last < item[1] && item[1] < tags[i][0]) });
@@ -66,9 +67,8 @@ var processFile = function(res,mrkps,vol,bampo) {
 	var d = new Date();
 	var date = d.toString().substr(4,11).replace(/ /g,"").toLowerCase();
 	mkdirp.sync("../jiangkangyur_"+date+"/"+vol);
-
 	fs.writeFileSync("../jiangkangyur_"+date+"/"+vol+"/"+bampo+".xml",out.join(""),"utf8");
-	//console.log("All files have been converted to xml, please see ../jiangkangyur_"+date+"/"+vol);
+	console.log("All files have been exported to xml, please see ../jiangkangyur_"+date+"/"+vol);
 }
 
 filelist.map(function(file){//file:../jiangkangyur/078/lj0302_001.xml

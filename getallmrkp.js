@@ -3,7 +3,7 @@ var fs=require("fs");
 var unique=require("./unique");
 var sortStartByPage=require("./sortstartbypage.js");
 
-var CHIEF = "T.Gawa";
+var CHIEF = "Palden Lama";
 
 function checkBound(file){
 	var dataGroup= []; //[chief proof reader, 修改字起始,長度,頁數,修改字]
@@ -24,7 +24,7 @@ function checkBound(file){
 			var chiefmrkp=[a.doc.payload.author,
 			a.doc.start,a.doc.len,a.doc.pageid,a.doc.payload.text];
             //,filename.replace(/^.*[\\\/]/, '')
-            dataGroup.push(chiefmrkp);   
+            dataGroup.push(chiefmrkp);
 		}
 	});  
 	dataGroup=unique(dataGroup);  
