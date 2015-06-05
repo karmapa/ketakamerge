@@ -66,9 +66,9 @@ var processFile = function(res,mrkps,vol,bampo) {
 	}
 	var d = new Date();
 	var date = d.toString().substr(4,11).replace(/ /g,"").toLowerCase();
-	mkdirp.sync("../jiangkangyur_"+date+"/"+vol);
-	fs.writeFileSync("../jiangkangyur_"+date+"/"+vol+"/"+bampo+".xml",out.join(""),"utf8");
-	console.log("All files have been exported to xml, please see ../jiangkangyur_"+date+"/"+vol);
+	// mkdirp.sync("../jiangkangyur_"+date+"/"+vol);
+	// fs.writeFileSync("../jiangkangyur_"+date+"/"+vol+"/"+bampo+".xml",out.join(""),"utf8");
+	// console.log("All files have been exported to xml, please see ../jiangkangyur_"+date+"/"+vol);
 }
 
 filelist.map(function(file){//file:../jiangkangyur/078/lj0302_001.xml
@@ -76,7 +76,8 @@ filelist.map(function(file){//file:../jiangkangyur/078/lj0302_001.xml
 	var bampo = file.match(/lj\d+_\d+/)[0];
 	var m=JSON.parse(fs.readFileSync("./"+vol+"/"+bampo.replace("lj","").replace("_","-")+".json","utf8"));
 	var mrkps=getMrkp(m);
-	var bampoText=fs.readFileSync(file,"utf8");//./lj0302_001.xml
+	console.log(mrkps);
+	var bampoText=fs.readFileSync(file,"utf8").replace(/\r?\n/g,"\n");//./lj0302_001.xml
 	var res=xml4kdb.parseXML(bampoText,{segsep:"pb.id"});
 	processFile(res,mrkps,vol,bampo);
 });
