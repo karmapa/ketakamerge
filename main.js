@@ -13,11 +13,12 @@ var getMrkp = require("./getallmrkp.js");
 var injectKetaka=function(start,end,text,mrkps) {
   var out=text;
   if(!mrkps)return out;
-  //console.log(text);
+  console.log(mrkps);
   for(var i=0; i<mrkps.length; i++){//mrkps[chief,mrkpStart,mrkpLen,mrkpPb,mrkpText]
   	var mrkpStart = mrkps[i][1], mrkpLen = mrkps[i][2], mrkpText = mrkps[i][4];
   	//out = out.substr(0,mrkpStart-start)+"XXX"+mrkpText+'XXX'+out.substr(mrkpStart-start+mrkpLen);
     //if(mrkpText == " །") console.log(mrkpStart-start+2,mrkpStart-start+mrkpLen+2);
+    //console.log(mrkpStart);
   	out = out.substr(0,mrkpStart-start+1)+mrkpText+out.substr(mrkpStart-start+mrkpLen+1);
   }
   //100      110     start and end
@@ -36,11 +37,10 @@ var injectTag=function(seg,tags,pageid,mrkps) {
 	var out="", last=0,i=0, j=0;
 	//tagoffset = tags[i][0]
 	var mrkp = mrkps.filter(function(item){return item[0][3]===pageid})[0] ||[];
-	//console.log(mrkp);
+	//if(pageid == 4) console.log(mrkp);
 	while (i<tags.length && tags[i][0]>=last) {
 		
 		var m = mrkp.filter(function(item){ return (last < item[1] && item[1] < tags[i][0]) });
-		//console.log(m);
 		out+=injectKetaka(last, tags[i][0], text.substring(last,tags[i][0]), m);
 		var tagname=tags[i][1];
 		out+='<'+tagname;
@@ -52,7 +52,7 @@ var injectTag=function(seg,tags,pageid,mrkps) {
 		
 		i++;
 	}
-	m = mrkp.filter(function(item){ return last < item[1] });
+	m = mrkp.filter(function(item){ return last <= item[1] });
 	out+=injectKetaka(last,text.length-1,text.substring(last),m);
 	//console.log(out);
 	return out;
