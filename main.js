@@ -9,13 +9,26 @@ var getMrkp = require("./getallmrkp.js");
 //inject tags back to text
 
 //tag [realpos, tagname, attribute, vpos==0 ]
+var trim=function(text) {
+	var out=text;
+	if(text[1] == " ") {
+		out = text[0]+text.substr(2);
+		//out = text.substr(2);
+	}
+	return out;
+}
+
+var beginWithSpace=function(text){
+	if(text[1] == " ") return true;
+	else return false;
+}
 
 var injectKetaka=function(start,end,text,mrkps) {
   var out=text;
   if(!mrkps)return out;
-  console.log(mrkps);
   for(var i=0; i<mrkps.length; i++){//mrkps[chief,mrkpStart,mrkpLen,mrkpPb,mrkpText]
   	var mrkpStart = mrkps[i][1], mrkpLen = mrkps[i][2], mrkpText = mrkps[i][4];
+  	//console.log(mrkpStart,mrkpText);
   	//out = out.substr(0,mrkpStart-start)+"XXX"+mrkpText+'XXX'+out.substr(mrkpStart-start+mrkpLen);
     //if(mrkpText == " །") console.log(mrkpStart-start+2,mrkpStart-start+mrkpLen+2);
     //console.log(mrkpStart);
@@ -33,14 +46,20 @@ var injectKetaka=function(start,end,text,mrkps) {
 }
 
 var injectTag=function(seg,tags,pageid,mrkps) {
-	var text=seg.t;
+	var text = seg.t;
+	var bws = beginWithSpace(text);
+	//var text=trim(seg.t);
+
 	var out="", last=0,i=0, j=0;
-	//tagoffset = tags[i][0]
 	var mrkp = mrkps.filter(function(item){return item[0][3]===pageid})[0] ||[];
-	//if(pageid == 4) console.log(mrkp);
+	if(bws) mrkp = mrkp.map(function(item){return [ item[0],item[1]+1,item[2],item[3],item[4] ]});
+	if(pageid == 2 || pageid == 110){
+		console.log(tags);
+		console.log(mrkp);
+	}
 	while (i<tags.length && tags[i][0]>=last) {
 		
-		var m = mrkp.filter(function(item){ return (last < item[1] && item[1] < tags[i][0]) });
+		var m = mrkp.filter(function(item){ return (last <= item[1] && item[1] < tags[i][0]) });
 		out+=injectKetaka(last, tags[i][0], text.substring(last,tags[i][0]), m);
 		var tagname=tags[i][1];
 		out+='<'+tagname;
@@ -48,8 +67,8 @@ var injectTag=function(seg,tags,pageid,mrkps) {
 		var attributes=tags[i][2];
 		if (attributes) out+=" "+attributes; //has attribute
 		out+='>';
+
 		last=tags[i][0];
-		
 		i++;
 	}
 	m = mrkp.filter(function(item){ return last <= item[1] });
