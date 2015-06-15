@@ -53,10 +53,7 @@ var injectTag=function(seg,tags,pageid,mrkps) {
 	var out="", last=0,i=0, j=0;
 	var mrkp = mrkps.filter(function(item){return item[0][3]===pageid})[0] ||[];
 	if(bws) mrkp = mrkp.map(function(item){return [ item[0],item[1]+1,item[2],item[3],item[4] ]});
-	if(pageid == 2 || pageid == 110){
-		console.log(tags);
-		console.log(mrkp);
-	}
+
 	while (i<tags.length && tags[i][0]>=last) {
 		
 		var m = mrkp.filter(function(item){ return (last <= item[1] && item[1] < tags[i][0]) });
