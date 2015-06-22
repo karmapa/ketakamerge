@@ -22,6 +22,10 @@ var beginWithSpace=function(text){
 	if(text[1] == " ") return true;
 	else return false;
 }
+var beginWithNewline=function(text){
+	if(text[1] == "\n") return true;
+	else return false;
+}
 
 var injectKetaka=function(start,end,text,mrkps) {
   var out=text;
@@ -48,12 +52,12 @@ var injectKetaka=function(start,end,text,mrkps) {
 var injectTag=function(seg,tags,pageid,mrkps) {
 	var text = seg.t;
 	var bws = beginWithSpace(text);
-	//var text=trim(seg.t);
+	var bwn = beginWithNewline(text);
 
 	var out="", last=0,i=0, j=0;
 	var mrkp = mrkps.filter(function(item){return item[0][3]===pageid})[0] ||[];
-	if(bws) mrkp = mrkp.map(function(item){return [ item[0],item[1]+1,item[2],item[3],item[4] ]});
-	// if(pageid == 2 || pageid == 110){
+	if(bws || bwn) mrkp = mrkp.map(function(item){return [ item[0],item[1]+1,item[2],item[3],item[4] ]});
+	// if(pageid == 3){
 	// 	console.log(tags);
 	// 	console.log(mrkp);
 	// }
